@@ -1,4 +1,6 @@
 class Merchant < ApplicationRecord
+  has_many :orders
+
   validates :reference, :email, :live_on, :disbursement_frequency, :minimum_monthly_fee, presence: true
   validates :reference, :email, uniqueness: true
   validate :email_format
