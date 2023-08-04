@@ -3,6 +3,8 @@ class Merchant < ApplicationRecord
   validates :reference, :email, uniqueness: true
   validate :email_format
 
+  enum disbursement_frequency: %w[DAILY WEEKLY]
+
   private
 
   def email_format
