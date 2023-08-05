@@ -1,4 +1,6 @@
 class Disbursement < ApplicationRecord
+  belongs_to :merchant
+
   before_save :generate_reference
 
   validates :reference, :orders, :disbursed_at, :fee, presence: true
