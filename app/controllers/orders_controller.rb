@@ -1,5 +1,6 @@
 class OrdersController < ApplicationController
   before_action :set_merchant
+
   def create
     order = Order.new(orders_params)
     if order.save
@@ -11,7 +12,11 @@ class OrdersController < ApplicationController
 
   private
 
+  def set_merchant
+    @merchant = Merchant.find(params[:merchant_id])
+  end
+
   def orders_params
-    params.permit(:amount)
+    params.permit(:amount).merge(merchant_id: @merchant.id)
   end
 end
