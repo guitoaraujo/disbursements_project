@@ -15,6 +15,8 @@ class CreateDisbursementJob < ApplicationJob
         fee += order.amount * 0.01 if order.amount > 0.00 && order.amount < 50.00
         fee += order.amount * 0.0095 if order.amount >= 50.00 && order.amount < 300.00
         fee += order.amount * 0.0085 if order.amount >= 300.00
+
+        order.disbursed!
       end
 
       Disbursement.create(
