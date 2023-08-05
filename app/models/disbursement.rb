@@ -1,13 +1,13 @@
 class Disbursement < ApplicationRecord
   belongs_to :merchant
 
-  before_save :generate_reference
+  validates :orders, :disbursed_at, :fee, presence: true
 
-  validates :reference, :orders, :disbursed_at, :fee, presence: true
+  after_validation :set_reference
 
   private
 
-  def generate_reference
-    reference = SecureRandom.hex(10)
+  def set_reference
+    self.reference = SecureRandom.hex(10)
   end
 end

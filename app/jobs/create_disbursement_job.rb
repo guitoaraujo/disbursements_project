@@ -12,13 +12,17 @@ class CreateDisbursementJob < ApplicationJob
 
       orders = merchant.orders.waiting
       orders.each do |order|
-        fee += order.amount * 0.01 if order.amount < 50.00
-        fee += order.amount * 0.095 if order.amount > 50.00 && order.amount < 300.00
-
-        fee += order.amount * 0.085
+        fee += order.amount * 0.01 if order.amount > 0.00 && order.amount < 50.00
+        fee += order.amount * 0.0095 if order.amount >= 50.00 && order.amount < 300.00
+        fee += order.amount * 0.0085 if order.amount >= 300.00
       end
 
-      Disbursement.create(orders: orders.pluck(:reference), fee: fee)
+      Disbursement.create(
+        merchant_id: merchant.id,
+        orders: orders.pluck(:merchant_reference).join(','),
+        disbursed_at: Date.today,
+        fee: fee
+      )
     end
   end
 
