@@ -1,3 +1,5 @@
+require 'csv'
+
 class Merchant < ApplicationRecord
   has_many :orders
   has_many :disbursements
@@ -11,6 +13,22 @@ class Merchant < ApplicationRecord
   after_validation :set_weekday
 
   enum disbursement_frequency: %i[daily weekly]
+
+  def self.import_data
+    file_path = File.read('merchants.csv')
+    csv = CSV.parse(file_path, col_sep: ';', row_sep: :auto, skip_blanks: true)
+    csv.each_with_index do |row, index|
+      next if index.zero?
+
+      Merchant.create(
+        reference: row[0],
+        email: row[1],
+        live_on: row[2],
+        disbursement_frequency: row[3].downcase.to_s,
+        minimum_monthly_fee: row[4].to_f
+      )
+    end
+  end
 
   private
 
