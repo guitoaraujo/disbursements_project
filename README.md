@@ -1,24 +1,30 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Setup
 
-Things you may want to cover:
+* install `Ruby 3.0.1`
+* install `Rails 7.0.6`
+* install `MySQL`
 
-* Ruby version
+## Project
 
-* System dependencies
+* run `bundle install`
+* run `rails server`
+* create merchants: post `http://localhost:3000/merchants`
+* create orders: post `http://localhost:3000/merchants/:merchant_id/orders`
+* create disbursements: `rails console` then `CreateDisbursementJob.new.perform`
 
-* Configuration
+## TODO
 
-* Database creation
+* Install postgresql
+* Install RSpec and develop test cases
+* Install Sidekiq to handle cron job as expected
+* Create a class to generate data per year as expected
+* Refactor code, specially disbursement job to avoid loops inside loops 
 
-* Database initialization
+## Decisions
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* First of all, I really found hard to finish everything in time, so I did what I could.
+* I first spent some time reading the challenge description and after one hour or so I started.
+* Disbursements logics are complex at first sight, I probably left something uncovered.
+* My import_data methods did not worked as I expected due to files sizes.
